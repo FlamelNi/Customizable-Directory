@@ -1,0 +1,55 @@
+
+
+.arrival-jumbo {
+    margin-bottom: 5px;
+    padding: 1em;
+}
+
+
+.station-card {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 15px;
+    grid-template-areas: "circle  station-info  station-info  arrival-info"  "circle  .      .      next-info";
+}
+
+.next-info {
+    grid-area: next-info;
+}
+.arrival-info {
+    grid-area: arrival-info;
+}
+.station-info {
+    grid-area: station-info;
+/*  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: "circle  station_info";*/
+}
+
+.arrival-align {
+    display: flex;
+    column-gap: 12px;
+}
+
+.arrival-align h1 {
+    font-size: 30px;
+    align-self: flex-end;
+}
+
+.circle {
+    grid-area: circle;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: "."  "circle-text" ".";
+    /*grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: ".      circle-text  .";*/
+}
+.circle-text {
+    grid-area: circle-text;
+}
+
+.station-card_test {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: ".      header  header  ." "aside  section section section" "footer footer  footer  footer";
+}
