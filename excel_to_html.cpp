@@ -77,7 +77,7 @@ class ExcelToTable {
             string underline = "border-bottom: solid 1px";
 
             if ( !(this->rows.at(i).at(0) == "" && this->rows.at(i).at(1) == "") ) {
-                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;" + underline + ">\n";
+                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;" + underline + "\">\n";
                 s = s +    "<div class=\"name\">\n";
                 s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px; font-family: " + rowFont + "\">" + this->rows.at(i).at(0) + "</h1>\n";
                 s = s +     "</div>\n";
