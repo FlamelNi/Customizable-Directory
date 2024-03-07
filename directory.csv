@@ -1,15 +1,15 @@
-﻿,Title font size:,40,
-,Column font size:,35,
-,Name font size:,25,
-Title:,Building Directory,,
-Left column:,OFFICE TENANTS,Right column:,SUITE
-,Curology,,200
-,Extend,,2200
-,Jones Lang Lasalle - Management Office,,360
-,Landmark Worldwide,,200
-,Persona,,
-,Pilot,,
-,SOMAcentral Coworking Spaces,,
-,Tapjoy,,
-Left column:,TEST,Right column:,TEST2
-,abcd,,efg
+﻿,Title font size:,40,,,Note:,"Please do not put comma (,) in the fields below"
+,Column font size:,35,,,,
+,Name font size:,25,,,,
+Title:,Building Directory,,,,,
+Left column:,OFFICE TENANTS,Right column:,SUITE,,,
+,Curology,,200,,,
+,Extend,,2200,,,
+,Jones Lang Lasalle - Management Office,,360,,,
+,Landmark Worldwide,,200,,,
+,Persona,,,,,
+,Pilot,,,,,
+,SOMAcentral Coworking Spaces,,,,,
+,Tapjoy,,,,,
+Left column:,TEST,Right column:,TEST2,,,
+,abcd,,efg,,,
