@@ -11,17 +11,17 @@ const string DELIMIT = ",";
 const string TITLE_START = "<!-- TITLE -->";
 const string TITLE_END = "<!-- TITLE END -->";
 
-const string COLUMN_START = "<!-- COLUMN -->";
-const string COLUMN_END = "<!-- COLUMN END -->";
-
-
 class ExcelToTable {
     public:
+    string titleFontSize = "50";
+    string titleRowFontSize = "40";
+    string rowFontSize = "30";
+
     string fullHtml = "";
     string title = "";
-    string column_left = "";
-    string column_right = "";
+    vector<vector<string>> title_rows = vector<vector<string>>{};
     vector<vector<string>> rows = vector<vector<string>>{};
+    vector<int> num_rows = vector<int>{};
 
     void addRows(string a, string b) {
         rows.push_back(vector<string>{a, b});
@@ -29,10 +29,6 @@ class ExcelToTable {
     void addRows(vector<string> strs) {
         rows.push_back(strs);
     }
-
-    // string getTitle() {
-    //     return "<h1 class=\"display-4\" id=\"station_name\">"+ this->title + "</h1>";
-    // }
     
     void findInTemplet() {
 
@@ -46,25 +42,36 @@ class ExcelToTable {
     }
 
     string getReplaceHtml() {
+
+        string titleMargin = to_string(atoi(this->titleFontSize.c_str())-10);
+        string titleRowMargin = to_string(atoi(this->titleRowFontSize.c_str())-10);
+        string rowMargin = to_string(atoi(this->rowFontSize.c_str())-10);
+
         string s = "";
-        s =  s + "<h1 class=\"display-4\" style=\"margin-bottom: 35px;\">" + this->title + "</h1>\n\n";
+        s = s + "<h1 class=\"display-4\" style=\"margin-bottom: " + titleMargin + "px; font-size: " + this->titleFontSize + "px;\">" + this->title + "</h1>\n\n";
+        
 
-        s = s + "<div class=\"two-columns\" style=\"margin-bottom: 35px;\">\n";
-        s = s +    "<div class=\"name\">\n";
-        s = s +         "<h1 class=\"display-6\">" + this->column_left + "</h1>\n";
-        s = s +     "</div>\n";
-        s = s +     "<div class=\"info\">\n";
-        s = s +         "<h1 class=\"display-6 float-right\">" + this->column_right + "</h1>\n";
-        s = s +     "</div>\n";
-        s = s + "</div>\n\n";
-
+        int curr_num_row_index = 0;
         for (int i = 0; i < rows.size(); i++) {
-            s = s + "<div class=\"two-columns\" style=\"margin-bottom: 35px;\">\n";
+            
+            if (i >= this->num_rows.at(curr_num_row_index) && curr_num_row_index < this->title_rows.size()) {
+                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + titleRowMargin + "px; margin-top: " + titleRowMargin + "px;\">\n";
+                s = s +    "<div class=\"name\">\n";
+                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->titleRowFontSize + "px;\">" + this->title_rows.at(curr_num_row_index).at(0) + "</h1>\n";
+                s = s +     "</div>\n";
+                s = s +     "<div class=\"info\">\n";
+                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->titleRowFontSize + "px;\">" + this->title_rows.at(curr_num_row_index).at(1) + "</h1>\n";
+                s = s +     "</div>\n";
+                s = s + "</div>\n\n";
+                curr_num_row_index++;
+            }
+
+            s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;\">\n";
             s = s +    "<div class=\"name\">\n";
-            s = s +         "<h1 class=\"display-6\">" + this->rows.at(i).at(0) + "</h1>\n";
+            s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;\">" + this->rows.at(i).at(0) + "</h1>\n";
             s = s +     "</div>\n";
             s = s +     "<div class=\"info\">\n";
-            s = s +         "<h1 class=\"display-6 float-right\">" + this->rows.at(i).at(1) + "</h1>\n";
+            s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px;\">" + this->rows.at(i).at(1) + "</h1>\n";
             s = s +     "</div>\n";
             s = s + "</div>\n\n";
         }
@@ -78,7 +85,6 @@ class ExcelToTable {
 
         ofstream fout;
 
-        // cout << getReplaceHtml();
         replaceHtmlBy(s, TITLE_START, TITLE_END, getReplaceHtml());
         
         fout.open("index.html");
@@ -107,20 +113,29 @@ ExcelToTable readExcelFormat() {
     fin.open("directory.csv");
 
     getline(fin, s);
-    // cout << getSubstrByDelimiter(s, 1) << endl;
-    formatData.title = getSubstrByDelimiter(s, 1);
+    formatData.titleFontSize = getSubstrByDelimiter(s, 2);
+    getline(fin, s);
+    formatData.titleRowFontSize = getSubstrByDelimiter(s, 2);
+    getline(fin, s);
+    formatData.rowFontSize = getSubstrByDelimiter(s, 2);
 
     getline(fin, s);
-    formatData.column_left = getSubstrByDelimiter(s, 1);
-    formatData.column_right = getSubstrByDelimiter(s, 3);
+    formatData.title = getSubstrByDelimiter(s, 1);
 
-    
+    int num_rows = 0;
     while (!fin.eof()) {
         getline(fin, s);
-        
         vector<string> temp = {getSubstrByDelimiter(s, 1), getSubstrByDelimiter(s, 3)};
-        formatData.rows.push_back(temp);
+        if (getSubstrByDelimiter(s, 0) != "") {
+            formatData.title_rows.push_back(temp);
+            formatData.num_rows.push_back(num_rows);
+            num_rows = 0;
+        } else {
+            formatData.rows.push_back(temp);
+            num_rows++;
+        }
     }
+    formatData.num_rows.push_back(num_rows);
 
     fin.close();
     return formatData;
@@ -154,7 +169,6 @@ int main() {
     ExcelToTable formatData = readExcelFormat();
     
     formatData.fullHtml = readHtmlTemplet();
-    // std::cout << formatData.fullHtml;
 
     formatData.modifyHtml();
 

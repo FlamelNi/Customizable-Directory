@@ -1,4 +1,7 @@
-﻿Title:,Building Directory,,
+﻿,Title font size:,40,
+,Column font size:,35,
+,Name font size:,25,
+Title:,Building Directory,,
 Left column:,OFFICE TENANTS,Right column:,SUITE
 ,Curology,,200
 ,Extend,,2200
@@ -8,4 +11,5 @@ Left column:,OFFICE TENANTS,Right column:,SUITE
 ,Pilot,,
 ,SOMAcentral Coworking Spaces,,
 ,Tapjoy,,
-Left column:,,Right column:,
+Left column:,TEST,Right column:,TEST2
+,abcd,,efg
