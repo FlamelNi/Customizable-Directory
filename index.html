@@ -26,166 +26,122 @@ This is main bart app file. If this file is changed, please copypaste all code b
 
 <div style="background-image: url('background.jpg');">
     <div style="width: 70vw; margin: auto; padding: 3em;">
-        <h1 class="display-4" id="station_name">{{STATION_NAME_TITLE}}</h1>
+        <!-- <h1 class="display-4" id="station_name">{{STATION_NAME_TITLE}}</h1> -->
     </div>
     <div class="jumbotron" style="padding: 3em; margin: auto; width: 70vw; align-self: center;">
-        <h1 class="display-4" id="station_name">{{STATION_NAME_TITLE}}</h1>
-        <!-- <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-        <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p> -->
-    </div>    
+
+        <h1 class="display-4" style="margin-bottom: 30px;">Building Directory</h1>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">OFFICE TENANTS</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right">SUITE</h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">Curology</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right">200</h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">Extend</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right">2200</h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">Jones Lang Lasalle - Management Office</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right">360</h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">Landmark Worldwide</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right">200</h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">Persona</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right"></h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">Pilot</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right"></h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">SOMAcentral Coworking Spaces</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right"></h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6">Tapjoy</h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right"></h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6"></h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right"></h1>
+</div>
+</div>
+
+<div class="two-columns" style="margin-bottom: 35px;">
+<div class="name">
+<h1 class="display-6"></h1>
+</div>
+<div class="info">
+<h1 class="display-6 float-right"></h1>
+</div>
 </div>
 
 
-<script type="text/javascript">
 
-
-
-
-
-    //---------------------------------
-    const ARRIVAL_FONT_SIZE = 45;
-    const ARRIVAL_FONT_SIZE_SUB = 30;
-    const STATION_FONT_SIZE = 26;
-
-    function getHtmlCircle(data) {
-        tempHtml = '';
-
-        color = data.estimate[0].color;
-        text_color = 'black';
-        if (color == 'BLUE' || color == 'GREEN') {
-            text_color = 'white';
-        }
-
-        tempHtml = tempHtml + `<div class="circle" style="background: ${color};">\n`;
-        tempHtml = tempHtml + `<h4 class="circle-text align-middle display-8" style="text-align: center; color: ${text_color}">${color}</h4>\n`;
-        tempHtml = tempHtml + '</div>';
-        return tempHtml;
-    }
-    function getHtmlStationInfo(data) {
-        tempHtml = '';
-        tempHtml = tempHtml + '<div class="station-info">';
-        tempHtml = tempHtml + `<h1 class="display-6" style="font-size: ${STATION_FONT_SIZE}px">${data.destination}</h1>`;
-
-        tempHtml = tempHtml + '</div>';
-        return tempHtml;
-    }
-
-    function getHtmlArrivalAlign(min, font_size) {
-        if ( !Number.isInteger(Number(min)) ) {
-            return 0.5 * font_size;
-        }
-        return font_size;
-    }
-
-    function getHtmlArrivalInfo(data) {
-        tempHtml = '';
-        tempHtml = tempHtml + '<div class="arrival-info">';
-
-        min = data.estimate[0].minutes;
-        tempHtml = tempHtml + getHtmlArrivalAlign(min, ARRIVAL_FONT_SIZE);
-
-        tempHtml = tempHtml + '</div>';
-        return tempHtml;
-    }
-    function getHtmlNextInfo(data) {
-        tempHtml = '';
-        tempHtml = tempHtml + '<div class="next-info">';
-
-        min = data.estimate[1].minutes;
-        tempHtml = tempHtml + getHtmlArrivalAlign(min, ARRIVAL_FONT_SIZE_SUB);
-
-        tempHtml = tempHtml + '</div>';
-        return tempHtml;
-    }
-
-    function getHtmlArrivalAlign(min, font_size) {
-        tempHtml = '';
-        tempHtml = tempHtml + '<div class="float-right arrival-align">';
-
-        if ( Number.isInteger(Number(min)) ) {
-            tempHtml = tempHtml + `<h1 class="display-8" style="font-size: ${font_size}px;">${min}</h1>`;
-            tempHtml = tempHtml + `<h1 class="display-8">Mins</h1>`;
-        } else {
-            tempHtml = tempHtml + `<h1 class="display-8" style="font-size: ${font_size * 0.6}px;">${min}</h1>`;
-        }
-
-        tempHtml = tempHtml + '</div>';
-        return tempHtml;
-    }
-
-    function updateFrontend(data) {
-        finalHtml = '';
-
-        for (const dest of data) {
-            finalHtml = finalHtml + '<div class="jumbotron arrival-jumbo">';
-            finalHtml = finalHtml + '<div class="station-card">';
-            finalHtml += getHtmlCircle(dest);
-            finalHtml += getHtmlStationInfo(dest);
-            finalHtml += getHtmlArrivalInfo(dest);
-            finalHtml += getHtmlNextInfo(dest);
-            finalHtml = finalHtml + '</div>';
-            finalHtml = finalHtml + '</div>';
-        }
-
-        finalHtml = finalHtml + "</div>";
-        document.getElementById('train').innerHTML = finalHtml
-    }
-
-    function touchRawData(data) {
-        destArr = data.root.station[0].etd;
-
-        tempData = [];
-        // for (const d of destArr) {
-
-        // }
-        function comp(a, b) {
-            if (a.estimate[0].minutes == b.estimate[0].minutes) {
-                return 0;
-            }
-            if ( !Number.isInteger(Number(a.estimate[0].minutes)) ) {
-                return -1;
-            }
-            if ( Number(a.estimate[0].minutes) < Number(b.estimate[0].minutes) ) {
-                return -1;
-            }
-            return 1;
-        }
-
-        console.log(destArr.sort(comp))
-        return destArr;
-    }
-
-    function makeBartApiCall() {
-        // Define the API URL
-        const apiUrl = `https://api.bart.gov/api/etd.aspx?cmd=etd&orig=${STATION_NAME_QUERY}&key=MW9S-E7SL-26DU-VV8V&json=y`;
-
-        // Make a GET request
-        fetch(apiUrl)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(data => {
-            updateFrontend(touchRawData(data));
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-    }
+        
+    </div>
     
-    document.getElementById('station_name').innerHTML = STATION_NAME_TITLE;
+    <div style="width: 70vw; margin: auto; padding: 3em;">
+    </div>
+</div>
 
-    // makeBartApiCall();
-    // setInterval(makeBartApiCall, 60*1000);
 
-  
-</script>
+
 
 
 

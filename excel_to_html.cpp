@@ -8,6 +8,13 @@ using namespace std;
 
 const string DELIMIT = ",";
 
+const string TITLE_START = "<!-- TITLE -->";
+const string TITLE_END = "<!-- TITLE END -->";
+
+const string COLUMN_START = "<!-- COLUMN -->";
+const string COLUMN_END = "<!-- COLUMN END -->";
+
+
 class ExcelToTable {
     public:
     string fullHtml = "";
@@ -23,33 +30,60 @@ class ExcelToTable {
         rows.push_back(strs);
     }
 
-    string getTitle() {
-        return "<h1 class=\"display-4\" id=\"station_name\">"+ this->title + "</h1>";
-    }
-
-    string firstRow() {
-        string s = "";
-        s = s + "" + "\n";
-        return s;
-    }
-
-    string getRows() {
-        string s = "";
-        s = s + "" + "\n";
-        return s;
-    }
+    // string getTitle() {
+    //     return "<h1 class=\"display-4\" id=\"station_name\">"+ this->title + "</h1>";
+    // }
     
     void findInTemplet() {
 
     }
 
-    void modifyHtml() {
+    void replaceHtmlBy(string& s, string start, string end, string by) {
+        int a = s.find(start);
+        int b = s.find(end) + end.length();
         
+        s.replace(a, b-a, by + "\n");
+    }
 
-        // cout << tempHTML;
+    string getReplaceHtml() {
+        string s = "";
+        s =  s + "<h1 class=\"display-4\" style=\"margin-bottom: 35px;\">" + this->title + "</h1>\n\n";
 
-        // fout.open("index.html");
-        // fout.close();
+        s = s + "<div class=\"two-columns\" style=\"margin-bottom: 35px;\">\n";
+        s = s +    "<div class=\"name\">\n";
+        s = s +         "<h1 class=\"display-6\">" + this->column_left + "</h1>\n";
+        s = s +     "</div>\n";
+        s = s +     "<div class=\"info\">\n";
+        s = s +         "<h1 class=\"display-6 float-right\">" + this->column_right + "</h1>\n";
+        s = s +     "</div>\n";
+        s = s + "</div>\n\n";
+
+        for (int i = 0; i < rows.size(); i++) {
+            s = s + "<div class=\"two-columns\" style=\"margin-bottom: 35px;\">\n";
+            s = s +    "<div class=\"name\">\n";
+            s = s +         "<h1 class=\"display-6\">" + this->rows.at(i).at(0) + "</h1>\n";
+            s = s +     "</div>\n";
+            s = s +     "<div class=\"info\">\n";
+            s = s +         "<h1 class=\"display-6 float-right\">" + this->rows.at(i).at(1) + "</h1>\n";
+            s = s +     "</div>\n";
+            s = s + "</div>\n\n";
+        }
+        return s;
+    }
+
+    void modifyHtml() {
+        int a = 0;
+        int b = 0;
+        string s = this->fullHtml;
+
+        ofstream fout;
+
+        // cout << getReplaceHtml();
+        replaceHtmlBy(s, TITLE_START, TITLE_END, getReplaceHtml());
+        
+        fout.open("index.html");
+        fout << s;
+        fout.close();
 
     }
 };
@@ -77,13 +111,15 @@ ExcelToTable readExcelFormat() {
     formatData.title = getSubstrByDelimiter(s, 1);
 
     getline(fin, s);
-    // cout << getSubstrByDelimiter(s, 1) << endl;
-    // cout << getSubstrByDelimiter(s, 3) << endl;
+    formatData.column_left = getSubstrByDelimiter(s, 1);
+    formatData.column_right = getSubstrByDelimiter(s, 3);
 
     
     while (!fin.eof()) {
         getline(fin, s);
-        //feed this to format data vector
+        
+        vector<string> temp = {getSubstrByDelimiter(s, 1), getSubstrByDelimiter(s, 3)};
+        formatData.rows.push_back(temp);
     }
 
     fin.close();
@@ -118,7 +154,7 @@ int main() {
     ExcelToTable formatData = readExcelFormat();
     
     formatData.fullHtml = readHtmlTemplet();
-    std::cout << formatData.fullHtml;
+    // std::cout << formatData.fullHtml;
 
     formatData.modifyHtml();
 
