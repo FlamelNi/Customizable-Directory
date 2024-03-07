@@ -13,9 +13,9 @@ const string TITLE_END = "<!-- TITLE END -->";
 
 class ExcelToTable {
     public:
-    string titleFont = "Helvetica";
-    string titleRowFont = "Helvetica";
-    string rowFont = "Helvetica";
+    string titleFont = "";
+    string titleRowFont = "";
+    string rowFont = "";
 
     string titleFontSize = "50";
     string titleRowFontSize = "40";
@@ -51,8 +51,22 @@ class ExcelToTable {
         string titleRowMargin = to_string(atoi(this->titleRowFontSize.c_str())-10);
         string rowMargin = to_string(atoi(this->rowFontSize.c_str())-10);
 
+        string titleFont = " font-family: " + this->titleFont + "; ";
+        string titleRowFont = " font-family: " + this->titleRowFont + "; ";
+        string rowFont = " font-family: " + this->rowFont + "; ";
+
+        if (this->titleFont == "") {
+            titleFont = "";
+        }
+        if (this->titleRowFont == "") {
+            titleRowFont = "";
+        }
+        if (this->rowFont == "") {
+            rowFont = "";
+        }
+
         string s = "";
-        s = s + "<h1 class=\"display-4\" style=\"margin-bottom: " + titleMargin + "px; font-size: " + this->titleFontSize + "px; font-family: " + titleFont + "\">" + this->title + "</h1>\n\n";
+        s = s + "<h1 class=\"display-4\" style=\"margin-bottom: " + titleMargin + "px; font-size: " + this->titleFontSize + "px;" + titleFont + "\">" + this->title + "</h1>\n\n";
 
 
         int curr_num_row_index = 0;
@@ -61,10 +75,10 @@ class ExcelToTable {
             if (i >= this->num_rows.at(curr_num_row_index) && curr_num_row_index < this->title_rows.size()) {
                 s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + titleRowMargin + "px; margin-top: " + titleRowMargin + "px;\">\n";
                 s = s +    "<div class=\"name\">\n";
-                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->titleRowFontSize + "px; font-family: " + titleRowFont + "\">" + this->title_rows.at(curr_num_row_index).at(0) + "</h1>\n";
+                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->titleRowFontSize + "px;" + titleRowFont + "\">" + this->title_rows.at(curr_num_row_index).at(0) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s +     "<div class=\"info\">\n";
-                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->titleRowFontSize + "px; " + titleRowFont + "\">" + this->title_rows.at(curr_num_row_index).at(1) + "</h1>\n";
+                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->titleRowFontSize + "px;" + titleRowFont + "\">" + this->title_rows.at(curr_num_row_index).at(1) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s + "</div>\n\n";
                 curr_num_row_index++;
@@ -79,13 +93,14 @@ class ExcelToTable {
             if ( !(this->rows.at(i).at(0) == "" && this->rows.at(i).at(1) == "") ) {
                 s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;" + underline + "\">\n";
                 s = s +    "<div class=\"name\">\n";
-                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px; font-family: " + rowFont + "\">" + this->rows.at(i).at(0) + "</h1>\n";
+                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;" + rowFont + "\">" + this->rows.at(i).at(0) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s +     "<div class=\"info\">\n";
-                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px; " + rowFont + "\">" + this->rows.at(i).at(1) + "</h1>\n";
+                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px;" + rowFont + "\">" + this->rows.at(i).at(1) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s + "</div>\n\n";
             }
+
         }
         return s;
     }

@@ -1,6 +1,6 @@
-﻿Title font size:,40,Title font:,Helvetica,,Note:,"Please do not put comma (,) in the fields below"
-Column font size:,35,Column font:,Helvetica,,,
-Name font size:,25,Name font:,Helvetica,,,
+﻿Title font size:,40,Title font:,,,Note:,"Please do not put comma (,) in the fields below"
+Column font size:,35,Column font:,,,,
+Name font size:,25,Name font:,,,,
 Title:,Building Directory,,,,,
 Left column:,OFFICE TENANTS,Right column:,SUITE,,,
 ,Curology,,200,,,
