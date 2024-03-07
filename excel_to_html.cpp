@@ -66,14 +66,23 @@ class ExcelToTable {
                 curr_num_row_index++;
             }
 
-            s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;\">\n";
-            s = s +    "<div class=\"name\">\n";
-            s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;\">" + this->rows.at(i).at(0) + "</h1>\n";
-            s = s +     "</div>\n";
-            s = s +     "<div class=\"info\">\n";
-            s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px;\">" + this->rows.at(i).at(1) + "</h1>\n";
-            s = s +     "</div>\n";
-            s = s + "</div>\n\n";
+            // string backgroundColorText = "";
+            // if (i%2 == 1) {
+            //     backgroundColorText = "background-color: #d9d9d9";
+            // }
+            string underline = "border-bottom: solid 1px";
+
+            if ( !(this->rows.at(i).at(0) == "" && this->rows.at(i).at(1) == "") ) {
+                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px; " + underline + "\">\n";
+                s = s +    "<div class=\"name\">\n";
+                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;\">" + this->rows.at(i).at(0) + "</h1>\n";
+                s = s +     "</div>\n";
+                s = s +     "<div class=\"info\">\n";
+                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px;\">" + this->rows.at(i).at(1) + "</h1>\n";
+                s = s +     "</div>\n";
+                s = s + "</div>\n\n";
+            }
+
         }
         return s;
     }

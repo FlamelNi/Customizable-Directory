@@ -7,9 +7,9 @@
 
 .two-columns {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 15px;
-    grid-template-areas: "name  name  name  info";
+    grid-template-columns: repeat(7, 1fr);
+    grid-column-gap: 0px;
+    grid-template-areas: "name  name  name  name  name  info  info";
     margin-bottom: 15px;
 }
 
