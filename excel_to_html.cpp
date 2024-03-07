@@ -13,6 +13,10 @@ const string TITLE_END = "<!-- TITLE END -->";
 
 class ExcelToTable {
     public:
+    string titleFont = "Helvetica";
+    string titleRowFont = "Helvetica";
+    string rowFont = "Helvetica";
+
     string titleFontSize = "50";
     string titleRowFontSize = "40";
     string rowFontSize = "30";
@@ -48,8 +52,8 @@ class ExcelToTable {
         string rowMargin = to_string(atoi(this->rowFontSize.c_str())-10);
 
         string s = "";
-        s = s + "<h1 class=\"display-4\" style=\"margin-bottom: " + titleMargin + "px; font-size: " + this->titleFontSize + "px;\">" + this->title + "</h1>\n\n";
-        
+        s = s + "<h1 class=\"display-4\" style=\"margin-bottom: " + titleMargin + "px; font-size: " + this->titleFontSize + "px; font-family: " + titleFont + "\">" + this->title + "</h1>\n\n";
+
 
         int curr_num_row_index = 0;
         for (int i = 0; i < rows.size(); i++) {
@@ -57,10 +61,10 @@ class ExcelToTable {
             if (i >= this->num_rows.at(curr_num_row_index) && curr_num_row_index < this->title_rows.size()) {
                 s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + titleRowMargin + "px; margin-top: " + titleRowMargin + "px;\">\n";
                 s = s +    "<div class=\"name\">\n";
-                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->titleRowFontSize + "px;\">" + this->title_rows.at(curr_num_row_index).at(0) + "</h1>\n";
+                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->titleRowFontSize + "px; font-family: " + titleRowFont + "\">" + this->title_rows.at(curr_num_row_index).at(0) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s +     "<div class=\"info\">\n";
-                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->titleRowFontSize + "px;\">" + this->title_rows.at(curr_num_row_index).at(1) + "</h1>\n";
+                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->titleRowFontSize + "px; " + titleRowFont + "\">" + this->title_rows.at(curr_num_row_index).at(1) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s + "</div>\n\n";
                 curr_num_row_index++;
@@ -73,16 +77,15 @@ class ExcelToTable {
             string underline = "border-bottom: solid 1px";
 
             if ( !(this->rows.at(i).at(0) == "" && this->rows.at(i).at(1) == "") ) {
-                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px; " + underline + "\">\n";
+                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;" + underline + ">\n";
                 s = s +    "<div class=\"name\">\n";
-                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;\">" + this->rows.at(i).at(0) + "</h1>\n";
+                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px; font-family: " + rowFont + "\">" + this->rows.at(i).at(0) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s +     "<div class=\"info\">\n";
-                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px;\">" + this->rows.at(i).at(1) + "</h1>\n";
+                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px; " + rowFont + "\">" + this->rows.at(i).at(1) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s + "</div>\n\n";
             }
-
         }
         return s;
     }
@@ -117,16 +120,41 @@ ExcelToTable readExcelFormat() {
     ExcelToTable formatData;
     ifstream fin;
     string s;
+    string temp;
 
     //reading directory excel format
     fin.open("directory.csv");
 
     getline(fin, s);
-    formatData.titleFontSize = getSubstrByDelimiter(s, 2);
+    temp = getSubstrByDelimiter(s, 1);
+    if (temp != "") {
+        formatData.titleFontSize = temp;
+    }
+    temp = getSubstrByDelimiter(s, 3);
+    if (temp != "") {
+        formatData.titleFont = temp;
+    }
+
     getline(fin, s);
-    formatData.titleRowFontSize = getSubstrByDelimiter(s, 2);
+    temp = getSubstrByDelimiter(s, 1);
+    if (temp != "") {
+        formatData.titleRowFontSize = temp;
+    }
+    temp = getSubstrByDelimiter(s, 3);
+    if (temp != "") {
+        formatData.titleRowFont = temp;
+    }
+    
+    
     getline(fin, s);
-    formatData.rowFontSize = getSubstrByDelimiter(s, 2);
+    temp = getSubstrByDelimiter(temp, 1);
+    if (temp != "") {
+        formatData.rowFontSize = temp;
+    }
+    temp = getSubstrByDelimiter(temp, 3);
+    if (temp != "") {
+        formatData.rowFont = temp;
+    }
 
     getline(fin, s);
     formatData.title = getSubstrByDelimiter(s, 1);
