@@ -25,6 +25,8 @@ class ExcelToTable {
     string title = "";
     vector<vector<string>> title_rows = vector<vector<string>>{};
     vector<vector<string>> rows = vector<vector<string>>{};
+    vector<vector<string>> rowsSmall = vector<vector<string>>{};
+    
     vector<int> num_rows = vector<int>{};
 
     void addRows(string a, string b) {
@@ -49,6 +51,7 @@ class ExcelToTable {
 
         string titleMargin = to_string(atoi(this->titleFontSize.c_str())-10);
         string titleRowMargin = to_string(atoi(this->titleRowFontSize.c_str())-10);
+        string titleRowMargintop = to_string(atoi(this->titleRowFontSize.c_str())+40);
         string rowMargin = to_string(atoi(this->rowFontSize.c_str())-10);
 
         string titleFont = " font-family: " + this->titleFont + "; ";
@@ -66,18 +69,18 @@ class ExcelToTable {
         }
 
         string s = "";
-        s = s + "<h1 class=\"display-4\" style=\"margin-bottom: " + titleMargin + "px; font-size: " + this->titleFontSize + "px;" + titleFont + "\">" + this->title + "</h1>\n\n";
+        s = s + "<h1 class=\"display-4\" style=\"text-align: center; margin-bottom: " + titleMargin + "px; font-size: " + this->titleFontSize + "px;" + titleFont + "\">" + this->title + "</h1>\n\n";
 
 
         int curr_num_row_index = 0;
         for (int i = 0; i < rows.size(); i++) {
             
             if (i >= this->num_rows.at(curr_num_row_index) && curr_num_row_index < this->title_rows.size()) {
-                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + titleRowMargin + "px; margin-top: " + titleRowMargin + "px;\">\n";
-                s = s +    "<div class=\"name\">\n";
+                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + titleRowMargin + "px; margin-top: " + titleRowMargintop + "px;\">\n";
+                s = s +    "<div class=\"name float-left\">\n";
                 s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->titleRowFontSize + "px;" + titleRowFont + "\">" + this->title_rows.at(curr_num_row_index).at(0) + "</h1>\n";
                 s = s +     "</div>\n";
-                s = s +     "<div class=\"info\">\n";
+                s = s +     "<div class=\"info float-right\">\n";
                 s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->titleRowFontSize + "px;" + titleRowFont + "\">" + this->title_rows.at(curr_num_row_index).at(1) + "</h1>\n";
                 s = s +     "</div>\n";
                 s = s + "</div>\n\n";
@@ -89,17 +92,27 @@ class ExcelToTable {
             //     backgroundColorText = "background-color: #d9d9d9";
             // }
             string underline = "border-bottom: solid 1px";
-
-            if ( !(this->rows.at(i).at(0) == "" && this->rows.at(i).at(1) == "") ) {
-                s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;" + underline + "\">\n";
-                s = s +    "<div class=\"name\">\n";
-                s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;" + rowFont + "\">" + this->rows.at(i).at(0) + "</h1>\n";
-                s = s +     "</div>\n";
-                s = s +     "<div class=\"info\">\n";
-                s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px;" + rowFont + "\">" + this->rows.at(i).at(1) + "</h1>\n";
-                s = s +     "</div>\n";
-                s = s + "</div>\n\n";
+            if (this->rows.at(i).at(0) == " " || this->rows.at(i).at(0) == "") {
+                underline = "";
             }
+
+            s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;" + underline + "\">\n";
+            s = s +    "<div class=\"name float-left\" style=\"display: flex;\">\n";
+            s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;" + rowFont + "\">" + this->rows.at(i).at(0) + "</h1>\n";
+            if (this->rowsSmall.at(i).at(0) != "") {
+                s = s +     "<h1 class=\"display-6\" style=\"align-self: flex-end; font-size: " + to_string(atoi(this->rowFontSize.c_str())-10) + "px;" + rowFont + "\">" + this->rowsSmall.at(i).at(0) + "</h1>\n";
+                
+            }
+            s = s +     "</div>\n";
+            s = s +     "<div class=\"info float-right\">\n";
+            s = s +         "<h1 class=\"display-6 float-right\" style=\"font-size: " + this->rowFontSize + "px;" + rowFont + "\">" + this->rows.at(i).at(1) + "</h1>\n";
+            s = s +     "</div>\n";
+            s = s + "</div>\n\n";
+
+
+            // if ( !(this->rows.at(i).at(0) == "" && this->rows.at(i).at(1) == "") ) {
+                
+            // }
 
         }
         return s;
@@ -162,11 +175,11 @@ ExcelToTable readExcelFormat() {
     
     
     getline(fin, s);
-    temp = getSubstrByDelimiter(temp, 1);
+    temp = getSubstrByDelimiter(s, 1);
     if (temp != "") {
         formatData.rowFontSize = temp;
     }
-    temp = getSubstrByDelimiter(temp, 3);
+    temp = getSubstrByDelimiter(s, 3);
     if (temp != "") {
         formatData.rowFont = temp;
     }
@@ -177,6 +190,9 @@ ExcelToTable readExcelFormat() {
     int num_rows = 0;
     while (!fin.eof()) {
         getline(fin, s);
+        if (getSubstrByDelimiter(s, 1) == "END") {
+            break;
+        }
         vector<string> temp = {getSubstrByDelimiter(s, 1), getSubstrByDelimiter(s, 3)};
         if (getSubstrByDelimiter(s, 0) != "") {
             formatData.title_rows.push_back(temp);
@@ -184,6 +200,7 @@ ExcelToTable readExcelFormat() {
             num_rows = 0;
         } else {
             formatData.rows.push_back(temp);
+            formatData.rowsSmall.push_back({getSubstrByDelimiter(s, 2), getSubstrByDelimiter(s, 4)});
             num_rows++;
         }
     }
