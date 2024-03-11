@@ -100,7 +100,7 @@ class ExcelToTable {
             s = s +    "<div class=\"name float-left\" style=\"display: flex;\">\n";
             s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;" + rowFont + "\">" + this->rows.at(i).at(0) + "</h1>\n";
             if (this->rowsSmall.at(i).at(0) != "") {
-                s = s +     "<h1 class=\"display-6\" style=\"align-self: flex-end; font-size: " + to_string(atoi(this->rowFontSize.c_str())-10) + "px;" + rowFont + "\">" + this->rowsSmall.at(i).at(0) + "</h1>\n";
+                s = s +     "<h1 class=\"display-6\" style=\"align-self: flex-end; margin-left: 10px; font-size: " + to_string(atoi(this->rowFontSize.c_str())-10) + "px;" + rowFont + "\">" + this->rowsSmall.at(i).at(0) + "</h1>\n";
                 
             }
             s = s +     "</div>\n";
