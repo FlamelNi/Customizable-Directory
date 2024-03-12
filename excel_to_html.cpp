@@ -109,11 +109,6 @@ class ExcelToTable {
             s = s +     "</div>\n";
             s = s + "</div>\n\n";
 
-
-            // if ( !(this->rows.at(i).at(0) == "" && this->rows.at(i).at(1) == "") ) {
-                
-            // }
-
         }
         return s;
     }
@@ -227,13 +222,6 @@ string readHtmlTemplet() {
 
 
 int main() {
-    string s = "";
-    string title = "";
-    string left = "";
-    string right = "";
-
-    ifstream fin;
-    // ofstream fout;
 
     ExcelToTable formatData = readExcelFormat();
     
