@@ -11,6 +11,8 @@ const string DELIMIT = ",";
 const string TITLE_START = "<!-- TITLE -->";
 const string TITLE_END = "<!-- TITLE END -->";
 
+const bool IS_ICON_DISPLAY = true;
+
 class ExcelToTable {
     public:
     string titleFont = "";
@@ -88,12 +90,46 @@ class ExcelToTable {
             //     backgroundColorText = "background-color: #d9d9d9";
             // }
             string underline = "border-bottom: solid 1px";
+            bool is_empty_row = false;
             if (this->rows.at(i).at(0) == " " || this->rows.at(i).at(0) == "") {
                 underline = "";
+                is_empty_row = true;
+            }
+
+            if (!is_empty_row) {
+                
+                s = s + "<div class=\"modal fade\" id=\"row_info_" + to_string(i) + "\" tabindex=\"-1\" role=\"dialog\">\n";
+                s = s + "    <div class=\"modal-dialog\" role=\"document\">\n";
+                s = s + "        <div class=\"modal-content\">\n";
+                s = s + "        <div class=\"modal-header\">\n";
+                s = s + "            <h5 class=\"modal-title\">Modal title</h5>\n";
+                s = s + "            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n";
+                s = s + "            <span aria-hidden=\"true\">&times;</span>\n";
+                s = s + "            </button>\n";
+                s = s + "        </div>\n";
+                s = s + "        <div class=\"modal-body\">\n";
+                s = s + "            <p>Modal body text goes here.</p>\n";
+                s = s + "        </div>\n";
+                s = s + "        <div class=\"modal-footer\">\n";
+                s = s + "            <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\n";
+                s = s + "            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n";
+                s = s + "        </div>\n";
+                s = s + "        </div>\n";
+                s = s + "    </div>\n";
+                s = s + "</div>\n";
+
+                s = s + "<script>\n";
+                s = s + "function on_info_clicked_" + to_string(i) + "() {\n";
+                s = s + "    alert('test_" + to_string(i) + "')\n";
+                s = s + "}\n";
+                s = s + "</script>\n";
             }
 
             s = s + "<div class=\"two-columns\" style=\"margin-bottom: " + rowMargin + "px;" + underline + "\">\n";
             s = s +    "<div class=\"name float-left\" style=\"display: flex;\">\n";
+            if (IS_ICON_DISPLAY && !is_empty_row) {
+                s = s +     "<button class=\"btn btn-warning btn-sm\" style=\"margin-right:15px;\" data-toggle=\"modal\" data-target=\"#row_info_" + to_string(i) + "\"><img src='info_icon.png' width=25px\"></button>\n";
+            }
             s = s +         "<h1 class=\"display-6\" style=\"font-size: " + this->rowFontSize + "px;" + rowFont + "\">" + this->rows.at(i).at(0) + "</h1>\n";
             if (this->rowsSmall.at(i).at(0) != "") {
                 s = s +     "<h1 class=\"display-6\" style=\"align-self: flex-end; margin-left: 10px; font-size: " + to_string(atoi(this->rowFontSize.c_str())-10) + "px;" + rowFont + "\">" + this->rowsSmall.at(i).at(0) + "</h1>\n";
