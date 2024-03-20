@@ -35,10 +35,6 @@ class ExcelToTable {
     void addRows(vector<string> strs) {
         rows.push_back(strs);
     }
-    
-    void findInTemplet() {
-
-    }
 
     void replaceHtmlBy(string& s, string start, string end, string by) {
         int a = s.find(start);
